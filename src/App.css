@@ -5,7 +5,6 @@
 .App-header {
   font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   background-color: #ffffff;
-  /* min-height: 100vh; */
   display: flex;
   flex-direction: column;
   align-items: center;

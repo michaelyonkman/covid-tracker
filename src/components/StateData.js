@@ -1,5 +1,11 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { VictoryBar, VictoryChart, VictoryTheme } from 'victory';
+import {
+  VictoryAxis,
+  VictoryBar,
+  VictoryChart,
+  VictoryTheme,
+  VictoryTooltip,
+} from 'victory';
 
 const StateData = (props) => {
   const [data, setData] = useState([]);
@@ -12,12 +18,15 @@ const StateData = (props) => {
       throw new Error(`HTTP error! status: ${response.status}`);
     } else {
       let json = await response.json();
-      const formattedData = json.slice(0, 7).map((day) => {
-        const container = {};
-        container.date = new Date(day.lastUpdateEt);
-        container.positiveIncrease = day.positiveIncrease;
-        return container;
-      });
+      const formattedData = json
+        .slice(0, 8)
+        .reverse()
+        .map((day) => {
+          const container = {};
+          container.date = new Date(day.lastUpdateEt).toLocaleDateString();
+          container.positiveIncrease = day.positiveIncrease;
+          return container;
+        });
       setData(formattedData);
     }
   };
@@ -29,11 +38,29 @@ const StateData = (props) => {
   if (!data.length) {
     return <div>Loading...</div>;
   } else {
+    console.log(data);
     return (
       <Fragment>
         <h1>New Cases</h1>
-        <VictoryChart theme={VictoryTheme.material} domainPadding={20}>
-          <VictoryBar data={data} x="date" y="positiveIncrease" />
+        <VictoryChart
+          fixLabelOverlap={true}
+          theme={VictoryTheme.material}
+          domainPadding={20}
+        >
+          <VictoryBar
+            data={data}
+            labels={({ datum }) =>
+              `Date: ${datum.date} New cases: ${datum.positiveIncrease}`
+            }
+            labelComponent={<VictoryTooltip />}
+            x="date"
+            y="positiveIncrease"
+            // style={{
+            //   data: { fill: 'tomato', width: 20 },
+            // }}
+          />
+          <VictoryAxis fixLabelOverlap />
+          <VictoryAxis dependentAxis />
         </VictoryChart>
       </Fragment>
     );
