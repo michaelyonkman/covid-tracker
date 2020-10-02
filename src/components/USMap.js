@@ -43,32 +43,35 @@ const USMap = ({ states }) => {
   //   doFetch();
   // }, []);
 
+  const mapStyle = {
+    fillColor: 'white',
+    weight: 1,
+    color: 'black',
+    fillOpacity: 1,
+  };
+
   const onEachState = (state, layer) => {
     layer.options.fillColor = state.properties.color;
     const name = state.properties.name;
-    const positiveRate = String(state.properties.positiveRate).slice(2, 4);
+    const positiveRate = state.properties.positiveRate;
     layer.bindPopup(`${name} ${positiveRate}%`);
   };
 
-  if (states.length) {
-    return (
-      <Map
-        center={[37.8, -96]}
-        zoom={4}
-        style={{ width: '50%', height: '900px' }}
-      >
-        <TileLayer
-          attribution={
-            '&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-          }
-          url={`https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`}
-        />
-        <GeoJSON data={states} onEachFeature={onEachState} />
-      </Map>
-    );
-  } else {
-    return null;
-  }
+  return (
+    <Map
+      center={[37.8, -96]}
+      zoom={4}
+      style={{ width: '100%', height: '900px' }}
+    >
+      {/* <TileLayer
+        attribution={
+          '&copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }
+        url={`https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/{z}/{x}/{y}?access_token=${mapboxAccessToken}`}
+      /> */}
+      <GeoJSON style={mapStyle} data={states} onEachFeature={onEachState} />
+    </Map>
+  );
 };
 
 export default USMap;

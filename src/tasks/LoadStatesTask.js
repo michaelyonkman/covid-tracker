@@ -1,4 +1,5 @@
 import { features } from '../data/states.json';
+import legendItems from '../entities/LegendItems';
 
 const state_hash = {
   AL: 'Alabama',
@@ -75,21 +76,24 @@ class LoadStatesTask {
 
       for (let i = 0; i < json.length; i++) {
         let state = json[i];
-        covidData[state_hash[state.state]] =
-          state.positiveIncrease / state.totalTestResultsIncrease;
+        let positiveRate = Math.ceil(
+          (state.positiveIncrease / state.totalTestResultsIncrease) * 100
+        );
+        covidData[state_hash[state.state]] = positiveRate;
       }
     }
     return covidData;
   };
 
-  setState = null;
-
   load = async (setState) => {
-    this.setState = setState;
     let covidData = await this.doFetch();
     for (let i = 0; i < features.length; i++) {
       let state = features[i];
       state.properties.positiveRate = covidData[state.properties.name];
+      let legendItem = legendItems.find((legendItem) =>
+        legendItem.isFor(state.properties.positiveRate)
+      );
+      state.properties.color = legendItem.color;
     }
     console.log('IN LOAD', features);
     setState(features);
