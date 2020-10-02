@@ -52,12 +52,12 @@ const StateData = (props) => {
             labels={({ datum }) =>
               `Date: ${datum.date} New cases: ${datum.positiveIncrease}`
             }
-            labelComponent={<VictoryTooltip />}
+            labelComponent={<VictoryTooltip constrainToVisibleArea />}
             x="date"
             y="positiveIncrease"
-            // style={{
-            //   data: { fill: 'tomato', width: 20 },
-            // }}
+            style={{
+              data: { fill: 'tomato', width: 20 },
+            }}
           />
           <VictoryAxis fixLabelOverlap />
           <VictoryAxis dependentAxis />
