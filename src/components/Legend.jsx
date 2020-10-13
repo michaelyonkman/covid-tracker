@@ -1,14 +1,8 @@
 import React from 'react';
 
 const Legend = ({ legendItems }) => {
-  console.log(legendItems);
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'stretch',
-      }}
-    >
+    <div className="legend-container">
       {legendItems.map((item) => (
         <div
           key={item.title}
@@ -19,9 +13,9 @@ const Legend = ({ legendItems }) => {
             alignItems: 'center',
             justifyContent: 'center',
             color: item.textColor,
-            height: '10vh',
-            fontWeight: 'bolder',
-            fontSize: '1.5em',
+            height: '8vh',
+            fontFamily: 'Roboto Mono',
+            borderBottom: 'solid black 1px',
           }}
         >
           <span>{item.title}</span>

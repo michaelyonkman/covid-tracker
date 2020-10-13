@@ -1,9 +1,12 @@
 .App {
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .App-header {
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: 'Roboto Mono', monospace;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -11,8 +14,32 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: black;
+  margin: 2em;
+}
+
+.App-header h1 {
+  font-weight: bold;
 }
 
 #mapid {
   height: 180px;
+}
+
+.map-legend-container {
+  display: flex;
+  flex-direction: row-reverse;
+  border: solid black 1px;
+  width: 90%;
+}
+
+.legend-container {
+  height: 900px;
+  display: flex;
+  flex-direction: column;
+  border-left: solid black 1px;
+}
+
+.chart-container {
+  width: 100%;
+  font-family: 'Roboto Mono', monospace;
 }

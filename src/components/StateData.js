@@ -19,11 +19,13 @@ const StateData = (props) => {
     } else {
       let json = await response.json();
       const formattedData = json
-        .slice(0, 8)
+        .slice(0, 90)
         .reverse()
         .map((day) => {
           const container = {};
           container.date = new Date(day.lastUpdateEt).toLocaleDateString();
+          container.dateShort = container.date.slice(0, -5);
+
           container.positiveIncrease = day.positiveIncrease;
           return container;
         });
@@ -35,12 +37,15 @@ const StateData = (props) => {
     doFetch(props.selectState);
   }, [props.selectState]);
 
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
   if (!data.length) {
     return <div>Loading...</div>;
   } else {
-    console.log(data);
     return (
-      <Fragment>
+      <div className="chart-container">
         <h1>New Cases</h1>
         <VictoryChart
           fixLabelOverlap={true}
@@ -50,19 +55,52 @@ const StateData = (props) => {
           <VictoryBar
             data={data}
             labels={({ datum }) =>
-              `Date: ${datum.date} New cases: ${datum.positiveIncrease}`
+              `${datum.date}\n${numberWithCommas(datum.positiveIncrease)}`
             }
-            labelComponent={<VictoryTooltip constrainToVisibleArea />}
-            x="date"
+            labelComponent={
+              <VictoryTooltip
+                constrainToVisibleArea
+                pointerOrientation="right"
+                dy={0}
+                dx={-12}
+                pointerWidth={25}
+                flyoutHeight={25}
+                flyoutWidth={50}
+                cornerRadius={0}
+                centerOffset={{ x: -50 }}
+                style={{
+                  fontSize: '5px',
+                  fontFamily: 'Roboto Mono',
+                  color: 'red',
+                }}
+                flyoutStyle={{ stroke: 'rgb(116, 31, 31)', strokeWidth: 0.5 }}
+              />
+            }
+            x="dateShort"
             y="positiveIncrease"
             style={{
-              data: { fill: 'tomato', width: 20 },
+              data: { fill: 'rgb(156, 41, 41)' },
             }}
           />
-          <VictoryAxis fixLabelOverlap />
-          <VictoryAxis dependentAxis />
+          <VictoryAxis
+            style={{
+              tickLabels: {
+                fontFamily: 'Roboto Mono',
+                fontSize: '10px',
+                angle: -45,
+              },
+            }}
+            fixLabelOverlap={true}
+          />
+          <VictoryAxis
+            style={{
+              tickLabels: { fontFamily: 'Roboto Mono', fontSize: '10px' },
+            }}
+            dependentAxis
+            // fixLabelOverlap
+          />
         </VictoryChart>
-      </Fragment>
+      </div>
     );
   }
 };
