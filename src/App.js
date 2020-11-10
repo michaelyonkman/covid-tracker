@@ -23,7 +23,6 @@ function App() {
       <header className="App-header">
         <h1>Covid-19 Data Project</h1>
       </header>
-      <USData selectState={selectState} />
       {!states.length ? <Loading /> : <USMap states={states} />}
       <select onChange={(e) => setSelectState(e.target.value)}>
         <option value="mi">Michigan</option>

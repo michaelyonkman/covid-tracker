@@ -71,8 +71,8 @@ const USMap = ({ states }) => {
       <Legend legendItems={LegendItemsInReverse} />
       <Map
         center={[37.8, -96]}
-        zoom={3.5}
-        minZoom={3}
+        zoom={4}
+        minZoom={4}
         maxZoom={4}
         style={{ width: '100%', height: '900px' }}
         maxBoundsViscosity={1.0}
