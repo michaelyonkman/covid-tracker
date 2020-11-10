@@ -3,10 +3,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-family: 'Roboto Mono', monospace;
 }
 
 .App-header {
-  font-family: 'Roboto Mono', monospace;
   background-color: #ffffff;
   display: flex;
   flex-direction: column;

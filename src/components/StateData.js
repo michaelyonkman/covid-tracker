@@ -19,7 +19,7 @@ const StateData = (props) => {
     } else {
       let json = await response.json();
       const formattedData = json
-        .slice(0, 90)
+        // .slice(0, 8)
         .reverse()
         .map((day) => {
           const container = {};
