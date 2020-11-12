@@ -11,7 +11,7 @@ const state_hash = {
   CO: 'Colorado',
   CT: 'Connecticut',
   DE: 'Delaware',
-  DC: 'District Of Columbia',
+  DC: 'District of Columbia',
   FM: 'Federated States Of Micronesia',
   FL: 'Florida',
   GA: 'Georgia',
@@ -77,9 +77,13 @@ class LoadStatesTask {
       for (let i = 0; i < json.length; i++) {
         let state = json[i];
         let positiveRate = Math.ceil(
-          (state.positiveIncrease / state.totalTestResultsIncrease) * 100
+          (state.positiveIncrease / state.totalTestResultsIncrease) * 100 ||
+            null
         );
-        covidData[state_hash[state.state]] = positiveRate;
+        covidData[state_hash[state.state]] = {
+          positiveRate,
+          positiveIncrease: state.positiveIncrease,
+        };
       }
     }
     return covidData;
@@ -87,9 +91,15 @@ class LoadStatesTask {
 
   load = async (setState) => {
     let covidData = await this.doFetch();
+    console.log('COVIDDATA', covidData);
     for (let i = 0; i < features.length; i++) {
       let state = features[i];
-      state.properties.positiveRate = covidData[state.properties.name];
+      state.properties.positiveRate =
+        covidData[state.properties.name].positiveRate;
+      state.properties.positiveIncrease =
+        covidData[state.properties.name].positiveIncrease;
+      state.properties.positiveByPop = Math.ceil();
+      console.log('COVIDDATA', covidData);
       let legendItem = legendItems.find((legendItem) =>
         legendItem.isFor(state.properties.positiveRate)
       );
